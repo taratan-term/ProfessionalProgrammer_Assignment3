@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-class sixnumberslotto
+class LottoGame
 {
     static void Main()
     {
         // Generate 6 unique winning numbers
-        HashSet<int> winningNumbers = new HashSet<int>();
+        List<int> winningNumbers = new List<int>();
         Random random = new Random();
         while (winningNumbers.Count < 6)
-            // Keeps generating numbers until 6 different ones are selected
         {
-            winningNumbers.Add(random.Next(1, 46));
-            // random numbers get selected between 1 - 45
+            int num = random.Next(1, 46);
+            if (!winningNumbers.Contains(num))
+                winningNumbers.Add(num);
         }
 
-        HashSet<int> playerNumbers = new HashSet<int>();
+        // Let the player pick 6 unique numbers
+        List<int> playerNumbers = new List<int>();
         Console.WriteLine("=== Lotto Pick ===");
         Console.WriteLine("Pick 6 numbers between 1 and 45!");
         for (int i = 1; i <= 6; i++)
@@ -30,16 +32,15 @@ class sixnumberslotto
                     playerNumbers.Add(num);
                     break;
                 }
-
                 Console.WriteLine("Invalid input. Try again.");
             }
         }
 
-        // Sort both sets for display to player
+        // Sort both lists for display
         var sortedWinning = winningNumbers.OrderBy(x => x).ToList();
         var sortedPlayer = playerNumbers.OrderBy(x => x).ToList();
 
-        // Find matches
+        // Find matches using Intersect
         var matches = sortedWinning.Intersect(sortedPlayer).ToList();
 
         // Display results
@@ -48,5 +49,3 @@ class sixnumberslotto
         Console.WriteLine($"You matched {matches.Count} numbers: {string.Join(", ", matches)}");
     }
 }
-    
-    
