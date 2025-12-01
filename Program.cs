@@ -9,6 +9,7 @@ class sixnumberslotto
         HashSet<int> winningNumbers = new HashSet<int>();
         Random random = new Random();
         while (winningNumbers.Count < 6)
+            // Keeps generating numbers until 6 different ones are selected
         {
             winningNumbers.Add(random.Next(1, 46));
             // random numbers get selected between 1 - 45
@@ -34,7 +35,7 @@ class sixnumberslotto
             }
         }
 
-        // Sort both sets for display
+        // Sort both sets for display to player
         var sortedWinning = winningNumbers.OrderBy(x => x).ToList();
         var sortedPlayer = playerNumbers.OrderBy(x => x).ToList();
 
