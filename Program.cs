@@ -1,39 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 
-class Guessnumbers
+class sixnumberslotto
 {
     static void Main()
     {
+        // Generate 6 unique winning numbers
+        HashSet<int> winningNumbers = new HashSet<int>();
         Random random = new Random();
-        int goalNumber = random.Next(1, 101);
-        List<int> guesses = new List<int>();
-        ////  List<int> or int[] selection : List<int> is dynamic in size and can grow or shrink as needed. /////
-
-        Console.WriteLine("Welcome to Guess the Number!");
-        Console.WriteLine("I'm thinking of a number between 1 and 100...");
-
-        while (true)
+        while (winningNumbers.Count < 6)
         {
-            Console.Write("Your guess: ");
-            int guess = int.Parse(Console.ReadLine());
-            guesses.Add(guess);
+            winningNumbers.Add(random.Next(1, 46));
+            // random numbers get selected between 1 - 45
+        }
 
-            if (guess < goalNumber)
+        HashSet<int> playerNumbers = new HashSet<int>();
+        Console.WriteLine("=== Lotto Pick ===");
+        Console.WriteLine("Pick 6 numbers between 1 and 45!");
+        for (int i = 1; i <= 6; i++)
+        {
+            int num;
+            while (true)
             {
-                Console.WriteLine("Higher!");
-            }
-            else if (guess > goalNumber)
-            {
-                Console.WriteLine("Lower!");
-            }
-            else
-            {
-                Console.WriteLine("Correct!");
-                break;
+                Console.Write($"Number {i}: ");
+                if (int.TryParse(Console.ReadLine(), out num) &&
+                    num >= 1 && num <= 45 && !playerNumbers.Contains(num))
+                {
+                    playerNumbers.Add(num);
+                    break;
+                }
+
+                Console.WriteLine("Invalid input. Try again.");
             }
         }
 
-        Console.WriteLine($"You found it in {guesses.Count} guesses: {string.Join(", ", guesses)}");
+        // Sort both sets for display
+        var sortedWinning = winningNumbers.OrderBy(x => x).ToList();
+        var sortedPlayer = playerNumbers.OrderBy(x => x).ToList();
+
+        // Find matches
+        var matches = sortedWinning.Intersect(sortedPlayer).ToList();
+
+        // Display results
+        Console.WriteLine($"The winning numbers are: {string.Join(", ", sortedWinning)}");
+        Console.WriteLine($"Your numbers:           {string.Join(", ", sortedPlayer)}");
+        Console.WriteLine($"You matched {matches.Count} numbers: {string.Join(", ", matches)}");
     }
 }
+    
+    
